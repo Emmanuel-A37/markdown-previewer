@@ -1,42 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { marked } from 'marked';
 import './App.css';
 
 const App = () => {
-  const [text, setText] = useState(`
-    # Welcome to My Markdown Previewer
-    
-    ## Sub-heading
+  
+  const [text, setText] = useState(`# Welcome to My Markdown Previewer
+## Sub-heading
 
-    Check out this link: [freeCodeCamp](https://www.freecodecamp.org)
+Check out this link: [freeCodeCamp](https://www.freecodecamp.org)
 
-    Here's some inline code: \`<div></div>\`.
+Here's some inline code: \`<div></div>\`.
 
-    \`\`\`
-    This is a code block.
-    You can write multiple lines of code here.
-    \`\`\`
+\`\`\`
+This is a code block.
+You can write multiple lines of code here.
+\`\`\`
 
-    - This is a list item.
+- This is a list item.
 
-    > This is a blockquote.
+> This is a blockquote.
 
-    ![Sample Image](https://via.placeholder.com/150)
+![Sample Image](https://via.placeholder.com/150)
 
-    **This text is bold!**
+**This text is bold!**
   `);
 
+  useEffect(() => {
+    marked.setOptions({
+      gfm: true,
+      breaks: true,
+    });
+  }, []);
+
   return (
-    <div>
-      <div id='editorWrap'>
+    <div className="App">
+      
+      <div id="editorWrap">
         <textarea
-          id='editor'
+          id="editor"
           value={text}
           onChange={(e) => setText(e.target.value)}
         ></textarea>
       </div>
+
+      
       <div
-        id='preview'
+        id="preview"
         dangerouslySetInnerHTML={{
           __html: marked.parse(text),
         }}
